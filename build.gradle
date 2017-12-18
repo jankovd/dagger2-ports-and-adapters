@@ -1,0 +1,69 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.google.com' }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+subprojects {
+    ext {
+        supportLibVersion = '26.1.0'
+        butterKnifeVersion = '8.8.1'
+        conductorVersion = '2.1.2'
+        rxBindingVersion = '2.0.0'
+        daggerVersion = '2.13'
+    }
+
+    ext.javaModule = {
+        apply plugin: 'java-library'
+
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+
+        if (project.name != 'core') {
+            dependencies.compile project(':core')
+        }
+        dependencies.api 'io.reactivex.rxjava2:rxjava:2.1.7'
+        dependencies.api "com.google.dagger:dagger:$daggerVersion"
+    }
+
+    ext.androidModule = {
+        android.compileOptions.sourceCompatibility JavaVersion.VERSION_1_8
+        android.compileOptions.targetCompatibility JavaVersion.VERSION_1_8
+
+        if (project.name != 'core-android') {
+            dependencies.implementation project(':core-android')
+        }
+        dependencies.api "com.android.support:appcompat-v7:$supportLibVersion"
+        dependencies.api "com.android.support:design:$supportLibVersion"
+        dependencies.api 'com.android.support.constraint:constraint-layout:1.0.2'
+        dependencies.debugApi 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+        dependencies.releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+        dependencies.api "com.bluelinelabs:conductor:$conductorVersion"
+        dependencies.api "com.bluelinelabs:conductor-support:$conductorVersion"
+        dependencies.api "com.bluelinelabs:conductor-rxlifecycle2:$conductorVersion"
+        dependencies.api "com.jakewharton:butterknife:$butterKnifeVersion"
+        dependencies.api "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
+        dependencies.annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+        dependencies.annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+
+        // TODO: ... other android project configuration ...
+    }
+}

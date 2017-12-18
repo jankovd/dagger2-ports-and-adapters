@@ -1,0 +1,13 @@
+<manifest package="cookpad.seavus"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+    >
+
+  <application
+      android:name=".ReleaseApp"
+      tools:replace="name"
+      >
+
+  </application>
+
+</manifest>

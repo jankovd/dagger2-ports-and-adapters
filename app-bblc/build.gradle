@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+androidModule()
+
+android {
+    compileSdkVersion 26
+
+    defaultConfig {
+        applicationId "cookpad.seavus"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+dependencies {
+    api project(':recipe')
+    api project(':recipe-remote-api')
+    implementation project(':recipe-remote-api-sync')
+
+    debugImplementation project(':recipe-in-memory-adapter')
+    debugImplementation project(':recipe-remote-api-mock-adapter')
+
+    releaseImplementation project(':recipe-in-memory-adapter')
+    releaseImplementation project(':recipe-remote-api-firebase-adapter')
+}

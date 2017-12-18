@@ -1,0 +1,5 @@
+javaModule()
+
+dependencies {
+    compile project(':recipe-remote-api')
+}
